@@ -1,0 +1,23 @@
+{
+  "id": "ak-47",
+  "nombre": "AK-47",
+  "categoria": "Rifle de Asalto",
+  "dano": {
+    "cabeza": 48,
+    "torso": 32,
+    "extremidades": 26
+  },
+  "cadencia": 52,
+  "retroceso": 68,
+  "movilidad": 48,
+  "alcance": 72,
+  "precision": {
+    "apuntando": 78,
+    "cadera": 30
+  },
+  "notas": "Datos de ejemplo para mostrar el formato — reemplazar por los valores reales.",
+  "actualizado": {
+    "fecha": "2026-09-06",
+    "por": "Catriel"
+  }
+}

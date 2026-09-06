@@ -1,0 +1,23 @@
+{
+  "id": "p90",
+  "nombre": "P90",
+  "categoria": "Subfusil",
+  "dano": {
+    "cabeza": 28,
+    "torso": 20,
+    "extremidades": 16
+  },
+  "cadencia": 88,
+  "retroceso": 34,
+  "movilidad": 82,
+  "alcance": 38,
+  "precision": {
+    "apuntando": 58,
+    "cadera": 62
+  },
+  "notas": "Datos de ejemplo para mostrar el formato — reemplazar por los valores reales.",
+  "actualizado": {
+    "fecha": "2026-09-06",
+    "por": "Catriel"
+  }
+}

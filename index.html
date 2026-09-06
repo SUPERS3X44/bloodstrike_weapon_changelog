@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armería — Base de datos de armas de Blood Strike</title>
+<meta name="description" content="Estadísticas de armas de Blood Strike mantenidas por la comunidad: daño, cadencia, retroceso, movilidad, alcance y precisión.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wordmark">ARMERÍA <span>BLOOD STRIKE · DATOS</span></div>
+  <input type="search" id="search" class="search-input" placeholder="Buscar arma (ej. AK-47)…" autocomplete="off">
+  <select id="sort" class="sort-select">
+    <option value="nombre">Ordenar: Nombre</option>
+    <option value="dano">Ordenar: Daño (torso)</option>
+    <option value="cadencia">Ordenar: Cadencia</option>
+    <option value="movilidad">Ordenar: Movilidad</option>
+    <option value="alcance">Ordenar: Alcance</option>
+    <option value="retroceso">Ordenar: Retroceso</option>
+  </select>
+</header>
+
+<nav class="filters" id="filters">
+  <!-- Las categorías se generan según los datos cargados -->
+</nav>
+
+<main>
+  <div id="grid" class="weapon-grid" aria-live="polite"></div>
+</main>
+
+<footer>
+  Proyecto comunitario de datos abiertos · Los valores los suben colaboradores del repositorio.
+  <br>Ver <code>CONTRIBUTING.md</code> para sumar o corregir un arma.
+</footer>
+
+<div id="overlay" class="detail-overlay hidden">
+  <div class="detail-panel" id="detail-panel" role="dialog" aria-modal="true"></div>
+</div>
+
+<script src="js/app.js" defer></script>
+</body>
+</html>

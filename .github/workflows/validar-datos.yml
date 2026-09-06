@@ -1,0 +1,20 @@
+name: Validar datos de armas
+
+on:
+  push:
+    paths:
+      - "data/**"
+  pull_request:
+    paths:
+      - "data/**"
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Validar manifest.json y data/weapons/*.json
+        run: python3 scripts/validar_datos.py

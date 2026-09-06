@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editor de armas — Armería Blood Strike</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wordmark">ARMERÍA <span>EDITOR LOCAL</span></div>
+</header>
+
+<div class="editor-wrap">
+  <a class="back-link" href="../index.html">← Volver a la armería</a>
+  <p class="editor-intro">
+    Completá los campos y del lado derecho se arma el JSON automáticamente.
+    Después descargalo o copialo y subilo a <code>data/weapons/</code> en el
+    repositorio (con el nombre de archivo que se genera abajo). Esta página
+    funciona sin conexión y no guarda nada en ningún servidor.
+  </p>
+
+  <div class="editor-layout">
+    <div class="panel">
+      <div class="panel__title">1. Pegar un JSON existente (opcional)</div>
+      <p class="hint">Si vas a actualizar un arma que ya existe, pegá acá su contenido actual para editarlo en lugar de escribir todo de nuevo.</p>
+      <div class="paste-box">
+        <textarea id="pegar" placeholder='{ "id": "ak-47", "nombre": "AK-47", ... }'></textarea>
+        <div class="actions">
+          <button class="btn secondary" id="btn-rellenar">Rellenar formulario con este JSON</button>
+        </div>
+      </div>
+
+      <div class="panel__title" style="margin-top:22px;">2. Datos del arma</div>
+
+      <div class="field">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" placeholder="Ej: AK-47">
+      </div>
+
+      <div class="field-grid-2">
+        <div class="field">
+          <label for="id">ID de archivo (sin espacios)</label>
+          <input type="text" id="id" placeholder="ak-47">
+        </div>
+        <div class="field">
+          <label for="categoria">Categoría</label>
+          <input type="text" id="categoria" list="categorias" placeholder="Rifle de Asalto">
+          <datalist id="categorias">
+            <option value="Rifle de Asalto">
+            <option value="Subfusil">
+            <option value="Escopeta">
+            <option value="Francotirador">
+            <option value="Ametralladora Ligera">
+            <option value="Pistola">
+          </datalist>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Daño por impacto</label>
+        <div class="field-grid">
+          <input type="number" id="dano_cabeza" placeholder="Cabeza">
+          <input type="number" id="dano_torso" placeholder="Torso">
+          <input type="number" id="dano_extremidades" placeholder="Extremidades">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Cadencia y manejo (escala 0–100, como en el juego)</label>
+        <div class="field-grid">
+          <input type="number" id="cadencia" placeholder="Cadencia" min="0" max="100">
+          <input type="number" id="retroceso" placeholder="Retroceso" min="0" max="100">
+          <input type="number" id="movilidad" placeholder="Movilidad" min="0" max="100">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Alcance y precisión (escala 0–100)</label>
+        <div class="field-grid">
+          <input type="number" id="alcance" placeholder="Alcance" min="0" max="100">
+          <input type="number" id="precision_apuntando" placeholder="Precisión ADS" min="0" max="100">
+          <input type="number" id="precision_cadera" placeholder="Precisión cadera" min="0" max="100">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="notas">Notas (opcional)</label>
+        <textarea id="notas" placeholder="Ej: valores medidos con mira roja y culata pesada"></textarea>
+      </div>
+
+      <div class="field-grid-2">
+        <div class="field">
+          <label for="por">Actualizado por</label>
+          <input type="text" id="por" placeholder="tu nombre o usuario">
+        </div>
+        <div class="field">
+          <label for="fecha">Fecha</label>
+          <input type="date" id="fecha">
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel__title">3. JSON generado</div>
+      <pre class="json-preview" id="preview"></pre>
+      <div class="actions">
+        <button class="btn" id="btn-descargar">Descargar .json</button>
+        <button class="btn secondary" id="btn-copiar">Copiar al portapapeles</button>
+      </div>
+      <div class="status-msg" id="status"></div>
+      <p class="hint">
+        El archivo se guarda como <code id="nombre-archivo">arma.json</code>.
+        Subilo a <code>data/weapons/</code> y, si es un arma nueva, agregá
+        ese nombre de archivo a <code>data/manifest.json</code>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="editor.js" defer></script>
+</body>
+</html>

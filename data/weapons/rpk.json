@@ -1,0 +1,23 @@
+{
+  "id": "rpk",
+  "nombre": "RPK",
+  "categoria": "Ametralladora Ligera",
+  "dano": {
+    "cabeza": 40,
+    "torso": 27,
+    "extremidades": 21
+  },
+  "cadencia": 60,
+  "retroceso": 58,
+  "movilidad": 40,
+  "alcance": 68,
+  "precision": {
+    "apuntando": 65,
+    "cadera": 28
+  },
+  "notas": "Datos de ejemplo para mostrar el formato — reemplazar por los valores reales.",
+  "actualizado": {
+    "fecha": "2026-09-06",
+    "por": "Catriel"
+  }
+}
