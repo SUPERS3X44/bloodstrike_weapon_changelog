@@ -1,24 +1,125 @@
 {
   "id": "kag-6",
-  "nombre": "KAG-6",
+  "nombre": "Kag-6",
   "categoria": "Rifle de Asalto",
   "dano": {
-    "cabeza": 0,
-    "torso": 0,
-    "extremidades": 0
+    "cabeza": 28,
+    "torso": 21,
+    "extremidades": 21
   },
-  "cadencia": 0,
-  "retroceso": 0,
-  "movilidad": 0,
-  "alcance": 0,
+  "cadencia": 63,
+  "retroceso": 46,
+  "movilidad": 60,
+  "alcance": 25,
   "precision": {
-    "apuntando": 0,
-    "cadera": 0
+    "apuntando": 27,
+    "cadera": 28
   },
-  "notas": "Pendiente de completar.",
+  "notas": "Nada relevante, solo que pasó de 26 a 28 de daño a la cabeza.",
   "actualizado": {
-    "fecha": "",
-    "por": ""
+    "fecha": "2026-09-07",
+    "por": "SUPERS3X44"
   },
-  "historial": []
+  "historial": [
+    {
+      "fecha": "2023-11",
+      "tipo": "buff",
+      "titulo": "Primer cambio registrado del Kag6",
+      "estadisticas": {
+        "dano": {
+          "cabeza": 26,
+          "torso": 18,
+          "extremidades": 18
+        },
+        "cadencia": 0,
+        "retroceso": 0,
+        "movilidad": 0,
+        "alcance": 0,
+        "precision": {
+          "apuntando": 0,
+          "cadera": 0
+        }
+      }
+    },
+    {
+      "fecha": "2025-05",
+      "tipo": "buff",
+      "titulo": "Intento de hacer el KAG-6 de corta",
+      "estadisticas": {
+        "dano": {
+          "cabeza": 26,
+          "torso": 21,
+          "extremidades": 21
+        },
+        "cadencia": 0,
+        "retroceso": 0,
+        "movilidad": 0,
+        "alcance": 0,
+        "precision": {
+          "apuntando": 0,
+          "cadera": 0
+        }
+      }
+    },
+    {
+      "fecha": "2025-05",
+      "tipo": "ajuste",
+      "titulo": "Miras de hierro",
+      "estadisticas": {
+        "dano": {
+          "cabeza": 26,
+          "torso": 21,
+          "extremidades": 21
+        },
+        "cadencia": 0,
+        "retroceso": 0,
+        "movilidad": 0,
+        "alcance": 0,
+        "precision": {
+          "apuntando": 0,
+          "cadera": 0
+        }
+      }
+    },
+    {
+      "fecha": "2025-07",
+      "tipo": "ajuste",
+      "titulo": "Bug con la mira",
+      "estadisticas": {
+        "dano": {
+          "cabeza": 26,
+          "torso": 21,
+          "extremidades": 21
+        },
+        "cadencia": 0,
+        "retroceso": 0,
+        "movilidad": 0,
+        "alcance": 0,
+        "precision": {
+          "apuntando": 0,
+          "cadera": 0
+        }
+      }
+    },
+    {
+      "fecha": "2025-09",
+      "tipo": "buff",
+      "titulo": "Segundo cambio bufeo importante",
+      "estadisticas": {
+        "dano": {
+          "cabeza": 28,
+          "torso": 21,
+          "extremidades": 21
+        },
+        "cadencia": 0,
+        "retroceso": 0,
+        "movilidad": 0,
+        "alcance": 0,
+        "precision": {
+          "apuntando": 0,
+          "cadera": 0
+        }
+      }
+    }
+  ]
 }
