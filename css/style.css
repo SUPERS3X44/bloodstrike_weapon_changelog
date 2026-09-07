@@ -213,6 +213,7 @@ button, select, input {
 }
 
 .bar {
+  display: inline-block; /*fix*/
   height: 6px;
   background: var(--panel-2);
   border: 1px solid var(--border);
