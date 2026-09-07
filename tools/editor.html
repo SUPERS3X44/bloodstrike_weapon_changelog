@@ -88,7 +88,31 @@
         </div>
       </div>
 
-      <div class="field">
+      <div class="panel__title" style="margin-top:22px;">3. Historial de cambios (opcional)</div>
+      <p class="hint">
+        Cargá arriba los valores que tenía el arma en un momento del pasado,
+        completá fecha/tipo/título acá abajo y tocá "Agregar": queda
+        guardada una foto de esos valores. Después cambiá los campos de
+        arriba a la siguiente versión y repetí. El valor que quede cargado
+        arriba al final es el que se guarda como estadísticas <em>actuales</em>.
+      </p>
+      <div class="hist-add-grid">
+        <input type="month" id="hist-fecha" aria-label="Fecha del cambio">
+        <select id="hist-tipo" aria-label="Tipo de cambio">
+          <option value="buff">Buff (mejora)</option>
+          <option value="nerf">Nerf (debilita)</option>
+          <option value="ajuste">Ajuste</option>
+        </select>
+        <input type="text" id="hist-titulo" placeholder="Título breve del cambio" aria-label="Título del cambio">
+      </div>
+      <div class="actions" style="margin-top:8px;">
+        <button type="button" class="btn secondary" id="btn-agregar-historial">+ Agregar con los valores de arriba</button>
+      </div>
+      <div id="hist-lista" style="margin-top:6px;">
+        <p class="hint">Todavía no agregaste cambios al historial.</p>
+      </div>
+
+      <div class="field" style="margin-top:18px;">
         <label for="notas">Notas (opcional)</label>
         <textarea id="notas" placeholder="Ej: valores medidos con mira roja y culata pesada"></textarea>
       </div>
@@ -106,7 +130,7 @@
     </div>
 
     <div class="panel">
-      <div class="panel__title">3. JSON generado</div>
+      <div class="panel__title">4. JSON generado</div>
       <pre class="json-preview" id="preview"></pre>
       <div class="actions">
         <button class="btn" id="btn-descargar">Descargar .json</button>

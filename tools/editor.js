@@ -13,7 +13,19 @@ const $preview = document.getElementById("preview");
 const $nombreArchivo = document.getElementById("nombre-archivo");
 const $status = document.getElementById("status");
 
+const $histFecha = document.getElementById("hist-fecha");
+const $histTipo = document.getElementById("hist-tipo");
+const $histTitulo = document.getElementById("hist-titulo");
+const $histLista = document.getElementById("hist-lista");
+
+const MESES = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+];
+const ETIQUETAS_TIPO = { buff: "BUFF", nerf: "NERF", ajuste: "AJUSTE" };
+
 let idTocadoManualmente = false;
+let historialCapturado = [];
 
 el.fecha.value = new Date().toISOString().slice(0, 10);
 
@@ -44,6 +56,37 @@ document.getElementById("btn-rellenar").addEventListener("click", () => {
   } catch (e) {
     mostrarEstado("Ese texto no es un JSON válido: " + e.message, true);
   }
+});
+
+document.getElementById("btn-agregar-historial").addEventListener("click", () => {
+  if (!$histFecha.value) {
+    mostrarEstado("Ingresá una fecha (mes y año) para el cambio de historial.", true);
+    return;
+  }
+  historialCapturado.push({
+    fecha: $histFecha.value,
+    tipo: $histTipo.value,
+    titulo: $histTitulo.value.trim(),
+    estadisticas: {
+      dano: {
+        cabeza: num(el.dano_cabeza.value),
+        torso: num(el.dano_torso.value),
+        extremidades: num(el.dano_extremidades.value),
+      },
+      cadencia: num(el.cadencia.value),
+      retroceso: num(el.retroceso.value),
+      movilidad: num(el.movilidad.value),
+      alcance: num(el.alcance.value),
+      precision: {
+        apuntando: num(el.precision_apuntando.value),
+        cadera: num(el.precision_cadera.value),
+      },
+    },
+  });
+  $histTitulo.value = "";
+  renderHistorialLista();
+  actualizarPreview();
+  mostrarEstado("Cambio agregado al historial con los valores actuales del formulario.");
 });
 
 document.getElementById("btn-descargar").addEventListener("click", () => {
@@ -94,7 +137,44 @@ function construirArma() {
       fecha: el.fecha.value || "",
       por: el.por.value.trim(),
     },
+    historial: historialCapturado.map((h) => JSON.parse(JSON.stringify(h))),
   };
+}
+
+function renderHistorialLista() {
+  if (!historialCapturado.length) {
+    $histLista.innerHTML = `<p class="hint">Todavía no agregaste cambios al historial.</p>`;
+    return;
+  }
+
+  $histLista.innerHTML = historialCapturado
+    .map((h, i) => {
+      const mm = parseInt((h.fecha || "").slice(5, 7), 10);
+      const anio = (h.fecha || "").slice(0, 4);
+      const mes = MESES[mm - 1] || "";
+      return `
+        <div class="hist-item">
+          <span class="tag tag-${h.tipo || "ajuste"}">${ETIQUETAS_TIPO[h.tipo] || "AJUSTE"}</span>
+          <span>${escapeHTMLLocal(mes)} ${escapeHTMLLocal(anio)}</span>
+          <span class="hist-item__titulo">${escapeHTMLLocal(h.titulo || "(sin título)")}</span>
+          <button type="button" class="hist-item__quitar" data-i="${i}">Quitar</button>
+        </div>`;
+    })
+    .join("");
+
+  $histLista.querySelectorAll(".hist-item__quitar").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      historialCapturado.splice(Number(btn.dataset.i), 1);
+      renderHistorialLista();
+      actualizarPreview();
+    });
+  });
+}
+
+function escapeHTMLLocal(str) {
+  return (str ?? "").toString().replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  }[c]));
 }
 
 function rellenarDesdeArma(arma) {
@@ -113,6 +193,10 @@ function rellenarDesdeArma(arma) {
   el.notas.value = arma.notas || "";
   el.por.value = arma.actualizado?.por || "";
   el.fecha.value = arma.actualizado?.fecha || new Date().toISOString().slice(0, 10);
+  historialCapturado = Array.isArray(arma.historial)
+    ? arma.historial.map((h) => JSON.parse(JSON.stringify(h)))
+    : [];
+  renderHistorialLista();
 }
 
 function actualizarPreview() {
@@ -142,4 +226,5 @@ function num(v) {
   return Number.isFinite(n) ? n : 0;
 }
 
+renderHistorialLista();
 actualizarPreview();

@@ -36,6 +36,28 @@ esta página no necesita servidor) y usalo para generar o editar el
 archivo: completás los campos, te arma el JSON, y lo descargás o copiás
 ya listo para subir.
 
+## Agregar un cambio al historial (buff/nerf/ajuste)
+
+Cuando una actualización del juego modifica un arma, conviene dejar
+registrado cómo estaba antes en vez de simplemente pisar los números.
+
+**Con el editor (`tools/editor.html`):**
+
+1. Pegá el JSON actual del arma en el paso 1 y tocá "Rellenar formulario".
+2. En la sección "3. Historial de cambios", completá la fecha (mes y año)
+   y el tipo (Buff / Nerf / Ajuste) de la versión **anterior**, y un
+   título corto, y tocá "Agregar con los valores de arriba" — esto
+   guarda una foto de los valores que están cargados en ese momento.
+3. Ahora sí, actualizá los campos de arriba (daño, cadencia, etc.) con
+   los valores **nuevos**.
+4. Descargá o copiá el JSON: va a incluir tanto las estadísticas nuevas
+   como el historial que armaste.
+
+**A mano:** agregale a la lista `historial` del archivo un objeto nuevo
+con `fecha` (formato `AAAA-MM`), `tipo` (`"buff"`, `"nerf"` o
+`"ajuste"`), `titulo` y `estadisticas` (una copia de cómo quedaba el
+arma antes del cambio). El formato exacto está en `README.md`.
+
 ## Reglas rápidas
 
 - Un archivo por arma, siempre dentro de `data/weapons/`.
@@ -47,4 +69,4 @@ ya listo para subir.
   agregarla a `data/manifest.json`.
 - Cada Pull Request corre automáticamente
   `scripts/validar_datos.py`, que avisa si algo quedó mal formado antes
-  de aprobar el cambio.
+  de aprobar el cambio (incluye lo que esté cargado en `historial`).

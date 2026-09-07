@@ -19,5 +19,27 @@
   "actualizado": {
     "fecha": "2026-09-06",
     "por": "Catriel"
-  }
+  },
+  "historial": [
+    {
+      "fecha": "2025-02",
+      "tipo": "ajuste",
+      "titulo": "Rework del patron de retroceso",
+      "estadisticas": {
+        "dano": {
+          "cabeza": 40,
+          "torso": 27,
+          "extremidades": 21
+        },
+        "cadencia": 60,
+        "retroceso": 64,
+        "movilidad": 40,
+        "alcance": 68,
+        "precision": {
+          "apuntando": 65,
+          "cadera": 28
+        }
+      }
+    }
+  ]
 }

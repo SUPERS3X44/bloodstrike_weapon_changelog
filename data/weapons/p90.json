@@ -19,5 +19,27 @@
   "actualizado": {
     "fecha": "2026-09-06",
     "por": "Catriel"
-  }
+  },
+  "historial": [
+    {
+      "fecha": "2024-08",
+      "tipo": "nerf",
+      "titulo": "Reduccion de cadencia tras el meta de CQC",
+      "estadisticas": {
+        "dano": {
+          "cabeza": 28,
+          "torso": 20,
+          "extremidades": 16
+        },
+        "cadencia": 94,
+        "retroceso": 30,
+        "movilidad": 82,
+        "alcance": 38,
+        "precision": {
+          "apuntando": 58,
+          "cadera": 62
+        }
+      }
+    }
+  ]
 }

@@ -8,6 +8,7 @@ cada Pull Request, pero también sirve correrlo a mano:
 """
 import json
 import os
+import re
 import sys
 
 RAIZ = os.path.join(os.path.dirname(__file__), "..")
@@ -17,6 +18,8 @@ CARPETA_ARMAS = os.path.join(RAIZ, "data", "weapons")
 CAMPOS_NUMERICOS_SIMPLES = ["cadencia", "retroceso", "movilidad", "alcance"]
 CAMPOS_DANO = ["cabeza", "torso", "extremidades"]
 CAMPOS_PRECISION = ["apuntando", "cadera"]
+TIPOS_HISTORIAL_VALIDOS = {"buff", "nerf", "ajuste"}
+PATRON_FECHA_MES = re.compile(r"^\d{4}-\d{2}$")
 
 errores = []
 
@@ -29,6 +32,59 @@ def es_numero(v):
     return isinstance(v, (int, float)) and not isinstance(v, bool)
 
 
+def validar_bloque_stats(prefijo, bloque):
+    """Valida un bloque de estadísticas (dano/cadencia/retroceso/movilidad/alcance/precision).
+    Se usa tanto para las estadísticas actuales de un arma como para cada
+    snapshot dentro de su 'historial'."""
+    if not isinstance(bloque, dict):
+        error(f"{prefijo}: se esperaba un objeto de estadísticas")
+        return
+
+    dano = bloque.get("dano")
+    if not isinstance(dano, dict):
+        error(f"{prefijo}: falta el objeto 'dano'")
+    else:
+        for campo in CAMPOS_DANO:
+            if not es_numero(dano.get(campo)):
+                error(f"{prefijo}: 'dano.{campo}' debe ser un número")
+
+    for campo in CAMPOS_NUMERICOS_SIMPLES:
+        if not es_numero(bloque.get(campo)):
+            error(f"{prefijo}: '{campo}' debe ser un número")
+
+    precision = bloque.get("precision")
+    if not isinstance(precision, dict):
+        error(f"{prefijo}: falta el objeto 'precision'")
+    else:
+        for campo in CAMPOS_PRECISION:
+            if not es_numero(precision.get(campo)):
+                error(f"{prefijo}: 'precision.{campo}' debe ser un número")
+
+
+def validar_historial(prefijo, historial):
+    if not isinstance(historial, list):
+        error(f"{prefijo}: 'historial' debe ser una lista (usá [] si no hay cambios cargados)")
+        return
+
+    for i, entrada in enumerate(historial):
+        sub_prefijo = f"{prefijo}: historial[{i}]"
+        if not isinstance(entrada, dict):
+            error(f"{sub_prefijo}: cada entrada debe ser un objeto")
+            continue
+
+        fecha = entrada.get("fecha")
+        if not isinstance(fecha, str) or not PATRON_FECHA_MES.match(fecha):
+            error(f"{sub_prefijo}: 'fecha' debe tener el formato AAAA-MM (ej. '2024-01')")
+
+        if entrada.get("tipo") not in TIPOS_HISTORIAL_VALIDOS:
+            error(f"{sub_prefijo}: 'tipo' debe ser uno de {sorted(TIPOS_HISTORIAL_VALIDOS)}")
+
+        if not isinstance(entrada.get("titulo"), str) or not entrada.get("titulo").strip():
+            error(f"{sub_prefijo}: falta el campo de texto 'titulo'")
+
+        validar_bloque_stats(f"{sub_prefijo}.estadisticas", entrada.get("estadisticas"))
+
+
 def validar_arma(nombre_archivo, arma):
     prefijo = f"data/weapons/{nombre_archivo}"
 
@@ -39,29 +95,13 @@ def validar_arma(nombre_archivo, arma):
     if arma.get("id") and arma["id"] != nombre_archivo.replace(".json", ""):
         error(f"{prefijo}: el campo 'id' ('{arma.get('id')}') no coincide con el nombre de archivo")
 
-    dano = arma.get("dano")
-    if not isinstance(dano, dict):
-        error(f"{prefijo}: falta el objeto 'dano'")
-    else:
-        for campo in CAMPOS_DANO:
-            if not es_numero(dano.get(campo)):
-                error(f"{prefijo}: 'dano.{campo}' debe ser un número")
-
-    for campo in CAMPOS_NUMERICOS_SIMPLES:
-        if not es_numero(arma.get(campo)):
-            error(f"{prefijo}: '{campo}' debe ser un número")
-
-    precision = arma.get("precision")
-    if not isinstance(precision, dict):
-        error(f"{prefijo}: falta el objeto 'precision'")
-    else:
-        for campo in CAMPOS_PRECISION:
-            if not es_numero(precision.get(campo)):
-                error(f"{prefijo}: 'precision.{campo}' debe ser un número")
+    validar_bloque_stats(prefijo, arma)
 
     actualizado = arma.get("actualizado")
     if not isinstance(actualizado, dict):
         error(f"{prefijo}: falta el objeto 'actualizado' (fecha/por)")
+
+    validar_historial(prefijo, arma.get("historial", []))
 
 
 def main():

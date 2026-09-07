@@ -89,11 +89,47 @@ Cada arma es un archivo `data/weapons/<id>.json` con esta forma:
 | `precision.cadera` | número | 0–100 (hip-fire) |
 | `notas` | texto | opcional, aclaraciones (mira usada, accesorios, etc.) |
 | `actualizado.fecha` / `actualizado.por` | texto | quién cargó el dato y cuándo |
+| `historial` | lista | cambios anteriores del arma (ver abajo) |
 
 Si la escala real del juego no es 0–100 para algún stat, es cuestión de
 ajustar los números — el sitio no asume nada más que "número más alto,
 barra más llena" (mirá `MAX_ESCALA` y `MAX_DANO` al principio de
 `js/app.js`).
+
+### Historial de cambios
+
+Cada arma puede guardar un historial de sus parches anteriores. En la
+ficha de cada arma aparece un botón **"Ver historial de cambios"** debajo
+de las estadísticas actuales; al abrirlo se ve un listado agrupado por
+año, y cada cambio tiene su propio botón **"ver estadísticas"** que
+despliega una foto de cómo estaba el arma en ese momento.
+
+`historial` es una lista de objetos con esta forma:
+
+```json
+{
+  "fecha": "2024-12",
+  "tipo": "nerf",
+  "titulo": "Reducción de cadencia y alcance por dominancia en el meta",
+  "estadisticas": {
+    "dano": { "cabeza": 44, "torso": 29, "extremidades": 23 },
+    "cadencia": 46,
+    "retroceso": 69,
+    "movilidad": 47,
+    "alcance": 62,
+    "precision": { "apuntando": 74, "cadera": 28 }
+  }
+}
+```
+
+- `fecha`: formato `AAAA-MM` (año y mes).
+- `tipo`: `"buff"` (verde), `"nerf"` (rojo) o `"ajuste"` (neutral).
+- `titulo`: descripción corta de qué cambió.
+- `estadisticas`: una foto completa de todos los valores del arma en ese
+  momento, con la misma forma que los campos de arriba a nivel raíz.
+
+Si un arma no tiene historial cargado, `historial` va como lista vacía
+(`[]`) — es lo que ya trae `template/arma-plantilla.json`.
 
 ## Sumar colaboradores
 

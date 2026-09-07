@@ -7,6 +7,14 @@
 const MAX_ESCALA = 100; // cadencia / retroceso / movilidad / alcance / precisión van de 0 a 100
 const MAX_DANO = 100;   // referencia visual para las barras de daño (puntos por impacto)
 
+const MESES = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+];
+
+const ETIQUETAS_TIPO = { buff: "BUFF", nerf: "NERF", ajuste: "AJUSTE" };
+const CLASES_TIPO = { buff: "tag-buff", nerf: "tag-nerf", ajuste: "tag-ajuste" };
+
 const state = {
   armas: [],
   categoria: "Todas",
@@ -80,7 +88,7 @@ function renderFiltros() {
   $filters.innerHTML = categorias
     .map(
       (cat) =>
-        `<button class="chip${cat === state.categoria ? " active" : ""}" data-cat="${escapeHTML(cat)}">${escapeHTML(cat)}</button>`
+        `<button type="button" class="chip${cat === state.categoria ? " active" : ""}" data-cat="${escapeHTML(cat)}">${escapeHTML(cat)}</button>`
     )
     .join("");
 
@@ -164,6 +172,136 @@ function barraStat(label, valor, max, colorClass) {
     </div>`;
 }
 
+/* ---------- Bloques de estadísticas reutilizables (actuales e historial) ---------- */
+
+function danoGridHTML(dano) {
+  dano = dano || {};
+  return `
+    <div class="dano-grid">
+      <div class="dano-cell"><div class="dano-cell__num">${dano.cabeza ?? 0}</div><div class="dano-cell__label">Cabeza</div></div>
+      <div class="dano-cell"><div class="dano-cell__num">${dano.torso ?? 0}</div><div class="dano-cell__label">Torso</div></div>
+      <div class="dano-cell"><div class="dano-cell__num">${dano.extremidades ?? 0}</div><div class="dano-cell__label">Extremidades</div></div>
+    </div>`;
+}
+
+function manejoHTML(s) {
+  s = s || {};
+  return `
+    ${barraStat("Cadencia", s.cadencia ?? 0, MAX_ESCALA)}
+    ${barraStat("Retroceso", s.retroceso ?? 0, MAX_ESCALA, "danger")}
+    ${barraStat("Movilidad", s.movilidad ?? 0, MAX_ESCALA, "cyan")}
+    ${barraStat("Alcance", s.alcance ?? 0, MAX_ESCALA)}`;
+}
+
+function precisionHTML(s) {
+  const p = (s && s.precision) || {};
+  return `
+    ${barraStat("Apuntando (ADS)", p.apuntando ?? 0, MAX_ESCALA, "cyan")}
+    ${barraStat("Desde la cadera", p.cadera ?? 0, MAX_ESCALA)}`;
+}
+
+function bloqueEstadisticasCompacto(s) {
+  s = s || {};
+  return danoGridHTML(s.dano) + manejoHTML(s) + precisionHTML(s);
+}
+
+/* ---------- Historial de cambios ---------- */
+
+function agruparHistorialPorAnio(historial) {
+  const ordenado = [...historial].sort((a, b) => (a.fecha || "").localeCompare(b.fecha || ""));
+  const grupos = [];
+  for (const entrada of ordenado) {
+    const anio = (entrada.fecha || "").slice(0, 4) || "Sin fecha";
+    let grupo = grupos.find((g) => g.anio === anio);
+    if (!grupo) {
+      grupo = { anio, entradas: [] };
+      grupos.push(grupo);
+    }
+    grupo.entradas.push(entrada);
+  }
+  return grupos;
+}
+
+function nombreMes(fecha) {
+  const mm = parseInt((fecha || "").slice(5, 7), 10);
+  return MESES[mm - 1] || "";
+}
+
+function labelHistorialToggle(abierto, cantidad) {
+  return `${abierto ? "▾ Ocultar" : "▸ Ver"} historial de cambios (${cantidad})`;
+}
+
+function historialSectionHTML(arma) {
+  const historial = Array.isArray(arma.historial) ? arma.historial : [];
+
+  if (!historial.length) {
+    return `
+      <div class="detail-section">
+        <div class="detail-section__title">HISTORIAL DE CAMBIOS</div>
+        <p class="detail-notas">Sin historial de cambios registrado todavía.</p>
+      </div>`;
+  }
+
+  const grupos = agruparHistorialPorAnio(historial);
+  let indiceGlobal = 0;
+
+  const cuerpo = grupos
+    .map((grupo) => {
+      const entradasHTML = grupo.entradas
+        .map((entrada) => {
+          const idx = indiceGlobal++;
+          const claseTag = CLASES_TIPO[entrada.tipo] || "tag-ajuste";
+          const etiquetaTag = ETIQUETAS_TIPO[entrada.tipo] || "AJUSTE";
+          return `
+            <div class="historial-entry">
+              <div class="historial-entry__row">
+                <span class="tag ${claseTag}">${etiquetaTag}</span>
+                <span class="historial-entry__mes">${escapeHTML(nombreMes(entrada.fecha))}</span>
+                <span class="historial-entry__titulo">${escapeHTML(entrada.titulo || "")}</span>
+                <button type="button" class="historial-entry__toggle" data-hist-idx="${idx}">ver estadísticas</button>
+              </div>
+              <div class="historial-entry__snapshot" data-hist-snapshot="${idx}">
+                ${bloqueEstadisticasCompacto(entrada.estadisticas)}
+              </div>
+            </div>`;
+        })
+        .join("");
+      return `<div class="historial-year"><div class="historial-year__title">${escapeHTML(grupo.anio)}</div>${entradasHTML}</div>`;
+    })
+    .join("");
+
+  return `
+    <div class="detail-section">
+      <button type="button" class="historial-toggle" id="historial-toggle">${labelHistorialToggle(false, historial.length)}</button>
+      <div class="historial-body hidden" id="historial-body">${cuerpo}</div>
+    </div>`;
+}
+
+function conectarHistorial(arma) {
+  const historial = Array.isArray(arma.historial) ? arma.historial : [];
+  if (!historial.length) return;
+
+  const $toggle = document.getElementById("historial-toggle");
+  const $body = document.getElementById("historial-body");
+  if ($toggle && $body) {
+    $toggle.addEventListener("click", () => {
+      const ocultoAhora = $body.classList.toggle("hidden");
+      $toggle.textContent = labelHistorialToggle(!ocultoAhora, historial.length);
+    });
+  }
+
+  $detailPanel.querySelectorAll(".historial-entry__toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const snap = $detailPanel.querySelector(`[data-hist-snapshot="${btn.dataset.histIdx}"]`);
+      if (!snap) return;
+      const abierto = snap.classList.toggle("open");
+      btn.textContent = abierto ? "ocultar estadísticas" : "ver estadísticas";
+    });
+  });
+}
+
+/* ---------- Panel de detalle ---------- */
+
 function abrirDetalle(id) {
   const arma = state.armas.find((a) => a.id === id);
   if (!arma) return;
@@ -180,38 +318,33 @@ function abrirDetalle(id) {
         <div class="detail-panel__name">${escapeHTML(arma.nombre)}</div>
         <div class="detail-panel__cat">${escapeHTML(arma.categoria || "")}</div>
       </div>
-      <button class="detail-close" id="detail-close" aria-label="Cerrar">✕</button>
+      <button type="button" class="detail-close" id="detail-close" aria-label="Cerrar">✕</button>
     </div>
 
     <div class="detail-section">
       <div class="detail-section__title">DAÑO POR IMPACTO</div>
-      <div class="dano-grid">
-        <div class="dano-cell"><div class="dano-cell__num">${arma.dano?.cabeza ?? 0}</div><div class="dano-cell__label">Cabeza</div></div>
-        <div class="dano-cell"><div class="dano-cell__num">${arma.dano?.torso ?? 0}</div><div class="dano-cell__label">Torso</div></div>
-        <div class="dano-cell"><div class="dano-cell__num">${arma.dano?.extremidades ?? 0}</div><div class="dano-cell__label">Extremidades</div></div>
-      </div>
+      ${danoGridHTML(arma.dano)}
     </div>
 
     <div class="detail-section">
       <div class="detail-section__title">MANEJO</div>
-      ${barraStat("Cadencia", arma.cadencia ?? 0, MAX_ESCALA)}
-      ${barraStat("Retroceso", arma.retroceso ?? 0, MAX_ESCALA, "danger")}
-      ${barraStat("Movilidad", arma.movilidad ?? 0, MAX_ESCALA, "cyan")}
-      ${barraStat("Alcance", arma.alcance ?? 0, MAX_ESCALA)}
+      ${manejoHTML(arma)}
     </div>
 
     <div class="detail-section">
       <div class="detail-section__title">PRECISIÓN</div>
-      ${barraStat("Apuntando (ADS)", arma.precision?.apuntando ?? 0, MAX_ESCALA, "cyan")}
-      ${barraStat("Desde la cadera", arma.precision?.cadera ?? 0, MAX_ESCALA)}
+      ${precisionHTML(arma)}
     </div>
 
     ${arma.notas ? `<div class="detail-section detail-notas">${escapeHTML(arma.notas)}</div>` : ""}
+
+    ${historialSectionHTML(arma)}
 
     <div class="detail-meta">${meta}</div>
   `;
 
   document.getElementById("detail-close").addEventListener("click", cerrarDetalle);
+  conectarHistorial(arma);
   $overlay.classList.remove("hidden");
 }
 

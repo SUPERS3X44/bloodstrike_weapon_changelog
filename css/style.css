@@ -11,10 +11,11 @@
   --border-strong: #3a434c;
   --text: #e7e9ea;
   --text-muted: #8a9199;
-  --accent: #e8a33d;      /* ámbar — acción / foco */
+  --accent: #e8a33d;      /* ámbar — acción / foco / ajuste */
   --accent-dim: #6b5225;
   --cyan: #4fd1c5;        /* selección / activo */
-  --danger: #e2574c;      /* daño alto */
+  --danger: #e2574c;      /* daño alto / nerf */
+  --buff: #64c76a;        /* buff */
   --radius: 2px;
   --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
   --display: "Rajdhani", "Segoe UI", sans-serif;
@@ -361,6 +362,115 @@ button, select, input {
   padding-top: 12px;
   margin-top: 4px;
 }
+
+/* ---------- Historial de cambios ---------- */
+
+.hidden { display: none; }
+
+.tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 2px 7px;
+  border-radius: 2px;
+  line-height: 1.6;
+}
+
+.tag-buff { background: rgba(100, 199, 106, 0.12); color: var(--buff); border: 1px solid rgba(100, 199, 106, 0.4); }
+.tag-nerf { background: rgba(226, 87, 76, 0.12); color: var(--danger); border: 1px solid rgba(226, 87, 76, 0.4); }
+.tag-ajuste { background: rgba(232, 163, 61, 0.12); color: var(--accent); border: 1px solid rgba(232, 163, 61, 0.4); }
+
+.historial-toggle { width: 100%; text-align: left; }
+
+.historial-body { margin-top: 12px; }
+
+.historial-year { margin-top: 14px; }
+
+.historial-year:first-child { margin-top: 0; }
+
+.historial-year__title {
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.historial-entry {
+  border-top: 1px dashed var(--border-strong);
+  padding: 9px 0;
+}
+
+.historial-entry__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+}
+
+.historial-entry__mes { font-weight: 600; }
+
+.historial-entry__titulo { color: var(--text-muted); font-size: 12px; }
+
+.historial-entry__toggle {
+  background: none;
+  border: none;
+  color: var(--cyan);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  text-decoration: underline;
+  margin-left: auto;
+}
+
+.historial-entry__snapshot {
+  display: none;
+  margin-top: 10px;
+  padding-left: 2px;
+}
+
+.historial-entry__snapshot.open { display: block; }
+
+.historial-entry__snapshot .dano-grid { margin-bottom: 8px; }
+
+/* ---------- Historial dentro del editor (tools/editor.html) ---------- */
+
+.hist-add-grid {
+  display: grid;
+  grid-template-columns: 140px 130px 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 560px) {
+  .hist-add-grid { grid-template-columns: 1fr; }
+}
+
+.hist-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+  border-top: 1px dashed var(--border-strong);
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+
+.hist-item__titulo { color: var(--text-muted); }
+
+.hist-item__quitar {
+  background: none;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  font-size: 11px;
+  padding: 2px 8px;
+  cursor: pointer;
+  margin-left: auto;
+  border-radius: var(--radius);
+}
+
+.hist-item__quitar:hover { color: var(--danger); border-color: var(--danger); }
 
 /* ---------- Pie ---------- */
 
