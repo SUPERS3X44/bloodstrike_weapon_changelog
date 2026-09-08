@@ -1,7 +1,7 @@
 {
-  "id": "spear",
-  "nombre": "Spear",
-  "categoria": "Rifle de Asalto",
+  "id": "pkm",
+  "nombre": "PKM",
+  "categoria": "Ametralladora Ligera",
   "dano": {
     "cabeza": 0,
     "torso": 0,
@@ -15,9 +15,9 @@
     "apuntando": 0,
     "cadera": 0
   },
-  "notas": "Pendiente de completar.",
+  "notas": "",
   "actualizado": {
-    "fecha": "",
+    "fecha": "2026-09-07",
     "por": ""
   },
   "historial": []

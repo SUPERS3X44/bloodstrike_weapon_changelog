@@ -287,7 +287,8 @@ button, select, input {
   margin-bottom: 18px;
 }
 
-.detail-panel__name {
+.detail-panel__name
+{
   font-family: var(--display);
   font-size: 26px;
   font-weight: 700;
@@ -301,6 +302,7 @@ button, select, input {
 }
 
 .detail-close {
+  justify-content: left;
   background: none;
   border: 1px solid var(--border-strong);
   color: var(--text-muted);
@@ -613,6 +615,50 @@ footer a:hover { color: var(--cyan); }
   font-size: 12.5px;
   color: var(--text-muted);
 }
+
+/*collabs*/
+.colaboradores-titulo {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #aaa;
+}
+
+/* Contenedor Flexbox para los logos */
+.colaboradores-logos {
+  display: flex;
+  justify-content: center; /* Centra los logos horizontalmente */
+  align-items: center;     /* Centra los logos verticalmente */
+  gap: 30px;               /* Espacio entre cada logo */
+  flex-wrap: wrap;         /* Si no hay espacio, bajan a la siguiente línea */
+  margin-bottom: 30px;
+}
+
+/* Controlar el tamaño de las imágenes */
+.colaboradores-logos img {
+  max-width: 50px; /* Ancho máximo para que no se vean gigantes */
+  height: auto;
+  opacity: 0.7; /* Un poco transparentes para que no resalten demasiado */
+  transition: opacity 0.3s ease; /* Transición suave */
+}
+
+/* Efecto al pasar el ratón por encima (Hover) */
+.colaboradores-logos img:hover {
+  opacity: 1; /* Se vuelven 100% visibles al tocarlas con el cursor */
+}
+
+/*Imagen de cada arma en la carta*/
+.arma-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain; /* Evita que la imagen se deforme si no es exactamente cuadrada */
+}
+.arma-detail-icon/*fix*/
+{
+  width: 128px;
+  height: 64px;
+  margin-top: 4px;
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }

@@ -140,13 +140,15 @@ function ordenar(lista, clave) {
   }
 }
 
-function tarjetaArma(arma) {
+function tarjetaArma(arma)//Tarjetas chicas que aparecen en la grilla de armas
+{
   const sinDatos = !(arma.cadencia || arma.movilidad || arma.alcance || arma.retroceso || arma.dano?.torso);
 
   return `
     <article class="weapon-card" data-id="${escapeHTML(arma.id)}" tabindex="0">
       <div class="weapon-card__top">
         <div class="weapon-card__name">${escapeHTML(arma.nombre)}</div>
+        <img src="images/${escapeHTML(arma.id)}.png" alt="${escapeHTML(arma.id)}" class="arma-icon">
         <div class="weapon-card__cat">${escapeHTML(arma.categoria || "")}</div>
       </div>
       ${
@@ -316,6 +318,7 @@ function abrirDetalle(id) {
     <div class="detail-panel__head">
       <div>
         <div class="detail-panel__name">${escapeHTML(arma.nombre)}</div>
+        <img src="images/${escapeHTML(arma.id)}.png" alt="${escapeHTML(arma.id)}" class="arma-detail-icon">
         <div class="detail-panel__cat">${escapeHTML(arma.categoria || "")}</div>
       </div>
       <button type="button" class="detail-close" id="detail-close" aria-label="Cerrar">✕</button>
