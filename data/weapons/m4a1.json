@@ -1,0 +1,85 @@
+{
+  "id": "m4a1",
+  "nombre": "M4A1",
+  "categoria": "Rifle de Asalto",
+  "dano": {
+    "cabeza": 48,
+    "torso": 32,
+    "extremidades": 26
+  },
+  "cadencia": 52,
+  "retroceso": 68,
+  "movilidad": 48,
+  "alcance": 72,
+  "precision": {
+    "apuntando": 78,
+    "cadera": 30
+  },
+  "notas": "Datos de ejemplo para mostrar el formato — reemplazar por los valores reales.",
+  "actualizado": {
+    "fecha": "2026-09-06",
+    "por": "SUPERS3X44"
+  },
+  "historial": [
+    {
+      "fecha": "2023-06",
+      "tipo": "buff",
+      "titulo": "Aumento de dano a media distancia",
+      "estadisticas": {
+        "dano": {
+          "cabeza": 40,
+          "torso": 26,
+          "extremidades": 20
+        },
+        "cadencia": 48,
+        "retroceso": 70,
+        "movilidad": 45,
+        "alcance": 60,
+        "precision": {
+          "apuntando": 70,
+          "cadera": 25
+        }
+      }
+    },
+    {
+      "fecha": "2024-01",
+      "tipo": "buff",
+      "titulo": "Mejora de cadencia y movilidad",
+      "estadisticas": {
+        "dano": {
+          "cabeza": 44,
+          "torso": 29,
+          "extremidades": 23
+        },
+        "cadencia": 50,
+        "retroceso": 69,
+        "movilidad": 47,
+        "alcance": 66,
+        "precision": {
+          "apuntando": 74,
+          "cadera": 28
+        }
+      }
+    },
+    {
+      "fecha": "2024-12",
+      "tipo": "nerf",
+      "titulo": "Reduccion de cadencia y alcance por dominancia en el meta",
+      "estadisticas": {
+        "dano": {
+          "cabeza": 44,
+          "torso": 29,
+          "extremidades": 23
+        },
+        "cadencia": 46,
+        "retroceso": 69,
+        "movilidad": 47,
+        "alcance": 62,
+        "precision": {
+          "apuntando": 74,
+          "cadera": 28
+        }
+      }
+    }
+  ]
+}

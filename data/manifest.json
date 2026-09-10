@@ -5,6 +5,16 @@
   "galil.json",
   "aug.json",
   "mcx.json",
+  "spear.json",
+  "m4a1.json",
+  "scar.json",
+  "vss.json",
+  "qbz95.json",
+  "hk416.json",
+  "fn2000.json",
+  "ar97.json",
+  "sks.json",
+
   "p90.json",
   "ump.json",
   "mp5.json",
@@ -12,11 +22,26 @@
   "bizon.json",
   "inp9.json",
   "urb.json",
+  "thompson.json",
+
   "rpk.json",
+  "pkm.json",
+  "minigun.json",
+
   "m82.json",
   "m700.json",
+  "kala.json",
+  "svd.json", 
+
   "m1887.json",
-  "spear.json",
-  "pkm.json",
-  "kala.json"
+  "origin12.json",
+  "mp155.json",
+  "s868.json",
+
+  "glock.json",
+  "magnum.json",
+  "deserteagle.json",
+
+   "arco.json",
+   "rpg.json"
 ]

@@ -13,7 +13,9 @@ Para ser participe envíame un MD a mi [Discord](https://discord.com/invite/66wM
 
 + En el footer se agregó una sección de colaboradores y sus redes.
 + Se arregló un problema en que la barra de las estadísticas de todas las armas no se mostraban. 
-+ A hora se mostrará una imágen del arma junto a su nombre en la grilla.
++ A hora se mostrará una imagen del arma junto a su nombre en la grilla.
++ Se han agregado todas las armas del juego con sus respectivas categorías aún sin sus datos exactos.
++ Se agregaron las categorías 'Pistolas' y 'Lanzadores' en el editor integrado
 
 ## Bugs conocidos por parchear.
 + Falta algunas armas o en las imágenes aparecen con accesorios.

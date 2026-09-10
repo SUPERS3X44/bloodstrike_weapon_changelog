@@ -1,0 +1,24 @@
+{
+  "id": "vss",
+  "nombre": "VSS",
+  "categoria": "Rifle de Asalto",
+  "dano": {
+    "cabeza": 0,
+    "torso": 0,
+    "extremidades": 0
+  },
+  "cadencia": 0,
+  "retroceso": 0,
+  "movilidad": 0,
+  "alcance": 0,
+  "precision": {
+    "apuntando": 0,
+    "cadera": 0
+  },
+  "notas": "Pendiente de completar.",
+  "actualizado": {
+    "fecha": "",
+    "por": ""
+  },
+  "historial": []
+}
